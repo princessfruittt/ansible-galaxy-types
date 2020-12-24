@@ -13,71 +13,70 @@ node_types:
         type: string
         default: "ansible-gunicorn"
         required: false
-#    properties:
-#      version:
-#        type: string
-#        default: 3.0.0
-#        constraints:
-#          - valid_values: [3.0.0]
-#      gunicorn_start_on:
-#        type: string
-#        default: "local-filesystems and net-device-up IFACE!=lo"
-#        required: false
-#      gunicorn_version:
-#        type: string
-#        default: "19.2.1"
-#        required: false
-#      gunicorn_user:
-#        type: string
-#        default: "gunicorn"
-#        required: false
-#      gunicorn_app_name:
-#        type: string
-#        default: "gunicorn"
-#        required: false
-#      gunicorn_dynamic_workers:
-#        type: string
-#        default: "False"
-#        required: false
-#      gunicorn_cpu_coefficient:
-#        type: string
-#        default: "2"
-#        required: false
-#      gunicorn_workers:
-#        type: string
-#        default: "8"
-#        required: false
-#      gunicorn_errorlog:
-#        type: string
-#        default: "-"
-#        required: false
-#      gunicorn_accesslog:
-#        type: string
-#        default: "-"
-#        required: false
-#      gunicorn_bind:
-#        type: string
-#        default: "127.0.0.1:8000"
-#        required: false
-#      gunicorn_reload:
-#        type: string
-#        default: "False"
-#        required: false
-#      gunicorn_loglevel:
-#        type: string
-#        default: "info"
-#        required: false
-#      gunicorn_private_tmp:
-#        type: string
-#        default: "True"
-#        required: false
-#      gunicorn_syslog:
-#        type: string
-#        default: "True"
-#        required: false
-#      gunicorn_timeout:
-#        type: string
-#        default: "30"
+      version:
+        type: string
+        default: 3.0.0
+        constraints:
+          - valid_values: [3.0.0]
+      gunicorn_start_on:
+        type: string
+        default: "local-filesystems and net-device-up IFACE!=lo"
+        required: false
+      gunicorn_version:
+        type: string
+        default: "19.2.1"
+        required: false
+      gunicorn_user:
+        type: string
+        default: "gunicorn"
+        required: false
+      gunicorn_app_name:
+        type: string
+        default: "gunicorn"
+        required: false
+      gunicorn_dynamic_workers:
+        type: string
+        default: "False"
+        required: false
+      gunicorn_cpu_coefficient:
+        type: string
+        default: "2"
+        required: false
+      gunicorn_workers:
+        type: string
+        default: "8"
+        required: false
+      gunicorn_errorlog:
+        type: string
+        default: "-"
+        required: false
+      gunicorn_accesslog:
+        type: string
+        default: "-"
+        required: false
+      gunicorn_bind:
+        type: string
+        default: "127.0.0.1:8000"
+        required: false
+      gunicorn_reload:
+        type: string
+        default: "False"
+        required: false
+      gunicorn_loglevel:
+        type: string
+        default: "info"
+        required: false
+      gunicorn_private_tmp:
+        type: string
+        default: "True"
+        required: false
+      gunicorn_syslog:
+        type: string
+        default: "True"
+        required: false
+      gunicorn_timeout:
+        type: string
+        default: "30"
     requirements:
       - host:
           capability: tosca.capabilities.Compute

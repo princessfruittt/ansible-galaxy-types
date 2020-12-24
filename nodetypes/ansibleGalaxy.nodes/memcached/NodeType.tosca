@@ -8,11 +8,10 @@ node_types:
       abstract: "false"
       final: "false"
       targetNamespace: "ansibleGalaxy.nodes"
-    attributes:
+    properties:
       role_name:
         type: string
         default: "ansible-role-memcached"
-    properties:
       version:
         type: string
         default: 1.1.0
