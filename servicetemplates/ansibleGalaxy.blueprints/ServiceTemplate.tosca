@@ -16,11 +16,11 @@ topology_template:
         host:
           properties:
             num_cpus: 16
-          endpoint:
-            properties:
-              protocol: tcp
-              port: 443
-              initiator: target
+        endpoint:
+          properties:
+            protocol: tcp
+            port: 443
+            initiator: target
           attributes:
             ip_address: 0.0.0.0/0
         os:
@@ -29,98 +29,97 @@ topology_template:
             version: 16.04
             architecture: x86_64
             distribution: xenial
-    gunicorn_rest_api_0:
-      type: tosca.nodes.Compute
-      attributes:
-        networks:
-          − int:
-            network_name: internal
-      capabilities:
-        host:
-          properties:
-            num_cpus: 16
-          endpoint:
-            properties:
-              protocol: tcp
-              port: 80
-              initiator: target
-        attributes:
-          ip_address: 192.168.112.0/24
-      os:
-        properties:
-          type: ubuntu
-          version: 16.04
-          architecture: x86_64
-          distribution: xenial
-
-    gunicorn_rest_api_1:
-      type: tosca.nodes.Compute
-      attributes:
-        networks:
-          − int:
-            network_name: internal
-      capabilities:
-        host:
-          properties:
-            num_cpus: 16
-          endpoint:
-            properties:
-              protocol: tcp
-              port: 80
-              initiator: target
-        attributes:
-          ip_address: 192.168.112.0/24
-      os:
-        properties:
-          type: ubuntu
-          version: 16.04
-          architecture: x86_64
-          distribution: xenial
-    memcached_cache:
-      type: tosca.nodes.Compute
-        attributes:
-          networks:
-            − int:
-              network_name: internal
-        capabilities:
-          host:
-            properties:
-              mem_size: 64 GiB
-          endpoint:
-            properties:
-              protocol: tcp
-              port: 11211
-              initiator: target
-            attributes:
-              ip_address: 192.168.112.0/24
-          os:
-            type: ubuntu
-            version: 16.04
-            architecture: x86_64
-            distribution: xenial
-    postgresql_database:
-      type: tosca.nodes.Compute
-        attributes:
-          networks:
-          − int:
-          network_name: i n t e r n a l
-        capabilities:
-          host:
-            properties:
-              disk_size: 1024 GiB
-          endpoint:
-            properties:
-              protocol: tcp
-              port: 5432
-              initiator: target
-          attributes:
-            ip_address: 192.168.112.0/24
-          os:
-            type: ubuntu
-            version: 16.04
-            architecture: x86_64
-            distribution: xenial
-
+#    gunicorn_rest_api_0:
+#      type: tosca.nodes.Compute
+#      attributes:
+#        networks:
+#          − int:
+#            network_name: internal
+#      capabilities:
+#        host:
+#          properties:
+#            num_cpus: 16
+#          endpoint:
+#            properties:
+#              protocol: tcp
+#              port: 80
+#              initiator: target
+#        attributes:
+#          ip_address: 192.168.112.0/24
+#      os:
+#        properties:
+#          type: ubuntu
+#          version: 16.04
+#          architecture: x86_64
+#          distribution: xenial
+#
+#    gunicorn_rest_api_1:
+#      type: tosca.nodes.Compute
+#      attributes:
+#        networks:
+#          − int:
+#            network_name: internal
+#      capabilities:
+#        host:
+#          properties:
+#            num_cpus: 16
+#          endpoint:
+#            properties:
+#              protocol: tcp
+#              port: 80
+#              initiator: target
+#        attributes:
+#          ip_address: 192.168.112.0/24
+#      os:
+#        properties:
+#          type: ubuntu
+#          version: 16.04
+#          architecture: x86_64
+#          distribution: xenial
+#    memcached_cache:
+#      type: tosca.nodes.Compute
+#        attributes:
+#          networks:
+#            − int:
+#              network_name: internal
+#        capabilities:
+#          host:
+#            properties:
+#              mem_size: 64 GiB
+#          endpoint:
+#            properties:
+#              protocol: tcp
+#              port: 11211
+#              initiator: target
+#            attributes:
+#              ip_address: 192.168.112.0/24
+#          os:
+#            type: ubuntu
+#            version: 16.04
+#            architecture: x86_64
+#            distribution: xenial
+#    postgresql_database:
+#      type: tosca.nodes.Compute
+#        attributes:
+#          networks:
+#          − int:
+#          network_name: i n t e r n a l
+#        capabilities:
+#          host:
+#            properties:
+#              disk_size: 1024 GiB
+#          endpoint:
+#            properties:
+#              protocol: tcp
+#              port: 5432
+#              initiator: target
+#          attributes:
+#            ip_address: 192.168.112.0/24
+#          os:
+#            type: ubuntu
+#            version: 16.04
+#            architecture: x86_64
+#            distribution: xenial
     EnvoyProxy:
       type: ansibleGalaxy.nodes.ansible-role-envoyproxy
       metadata:
