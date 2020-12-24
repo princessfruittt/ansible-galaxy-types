@@ -77,7 +77,7 @@ node_types:
     requirements:
       - host:
           capability: tosca.capabilities.Compute
-          node: tosca.capabilities.Compute
+          node: tosca.nodes.Compute
           relationship: tosca.relationships.HostedOn
           occurrences: [ 1, 1 ]
 #          node_filter:
