@@ -1,0 +1,122 @@
+tosca_definitions_version: tosca_simple_yaml_1_3
+
+node_types:
+  ansibleGalaxy.nodes.ComputeExtended:
+    derived_from: tosca.nodes.Compute
+    properties:
+      ansible_version:
+        type: string
+
+  ansibleGalaxy.nodes.ansible-gunicorn:
+    derived_from: tosca.nodes.SoftwareComponent
+    description: "Create an ansible-gunicorn"
+    metadata:
+      abstract: "false"
+      final: "false"
+      targetNamespace: "ansibleGalaxy.nodes"
+    attributes:
+      role_name:
+        type: string
+        default: "ansible-gunicorn"
+        required: false
+    properties:
+      version:
+        type: string
+        default: 3.0.0
+        constraints:
+          - valid_values: [3.0.0]
+      gunicorn_start_on:
+        type: string
+        default: "local-filesystems and net-device-up IFACE!=lo"
+        required: false
+      gunicorn_version:
+        type: string
+        default: "19.2.1"
+        required: false
+      gunicorn_user:
+        type: string
+        default: "gunicorn"
+        required: false
+      gunicorn_app_name:
+        type: string
+        default: "gunicorn"
+        required: false
+      gunicorn_dynamic_workers:
+        type: string
+        default: "False"
+        required: false
+      gunicorn_cpu_coefficient:
+        type: string
+        default: "2"
+        required: false
+      gunicorn_workers:
+        type: string
+        default: "8"
+        required: false
+      gunicorn_errorlog:
+        type: string
+        default: "-"
+        required: false
+      gunicorn_accesslog:
+        type: string
+        default: "-"
+        required: false
+      gunicorn_bind:
+        type: string
+        default: "127.0.0.1:8000"
+        required: false
+      gunicorn_reload:
+        type: string
+        default: "False"
+        required: false
+      gunicorn_loglevel:
+        type: string
+        default: "info"
+        required: false
+      gunicorn_private_tmp:
+        type: string
+        default: "True"
+        required: false
+      gunicorn_syslog:
+        type: string
+        default: "True"
+        required: false
+      gunicorn_timeout:
+        type: string
+        default: "30"
+    requirements:
+      - host:
+          capability: tosca.capabilities.Compute
+          node: ansibleGalaxy.nodes.ComputeExtended
+          relationship: tosca.relationships.HostedOn
+          occurrences: [ 1, 1 ]
+#          node_filter:
+#            capabilities:
+#              - host:
+#                  properties:
+#                    ansible_version:
+#                    constraints:
+#                      - greater_or_equal: 2.9
+#              - os:
+#                  properties:
+#                    type:
+#                    constraints:
+#                      - valid_values: ["linux"]
+#                    distribution:
+#                    constraints:
+#                      - valid_values: ["ubuntu", "debian"]
+#                    version:
+#                    constraints:
+#                      - valid_values: ["stretch", "buster", "xenial", "bionic", "focal"]
+    interfaces:
+      Standard:
+        type: tosca.interfaces.node.lifecycle.Standard
+        operations:
+          create:
+            implementation:
+              primary: create
+              timeout: 0
+    artifacts:
+      create:
+        type: ansibleGalaxy.artifacts.Ansible
+        file: tasks/main.yaml

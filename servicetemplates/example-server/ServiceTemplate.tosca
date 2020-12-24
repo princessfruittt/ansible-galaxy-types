@@ -1,0 +1,149 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+metadata:
+  targetNamespace: "ansibleGalaxy.blueprints"
+
+topology_template:
+  node_templates:
+    envoy_load_balancer:
+      type: tosca.nodes.Compute
+      attributes:
+        public_address: 10.10.0.1
+        networks:
+          − network_0:
+            network_name: internal
+      capabilities:
+        host:
+          properties:
+            num_cpus: 16
+          endpoint:
+            properties:
+              protocol: tcp
+              port: 443
+              initiator: target
+          attributes:
+            ip_address: 0.0.0.0/0
+        os:
+          properties:
+            type: ubuntu
+            version: 16.04
+            architecture: x86_64
+            distribution: xenial
+    gunicorn_rest_api_0:
+      type: tosca.nodes.Compute
+      attributes:
+        networks:
+          − int:
+            network_name: internal
+      capabilities:
+        host:
+          properties:
+            num_cpus: 16
+          endpoint:
+            properties:
+              protocol: tcp
+              port: 80
+              initiator: target
+        attributes:
+          ip_address: 192.168.112.0/24
+      os:
+        properties:
+          type: ubuntu
+          version: 16.04
+          architecture: x86_64
+          distribution: xenial
+
+    gunicorn_rest_api_1:
+      type: tosca.nodes.Compute
+      attributes:
+        networks:
+          − int:
+            network_name: internal
+      capabilities:
+        host:
+          properties:
+            num_cpus: 16
+          endpoint:
+            properties:
+              protocol: tcp
+              port: 80
+              initiator: target
+        attributes:
+          ip_address: 192.168.112.0/24
+      os:
+        properties:
+          type: ubuntu
+          version: 16.04
+          architecture: x86_64
+          distribution: xenial
+    memcached_cache:
+      type: tosca.nodes.Compute
+        attributes:
+          networks:
+            − int:
+              network_name: internal
+        capabilities:
+          host:
+            properties:
+              mem_size: 64 GiB
+          endpoint:
+            properties:
+              protocol: tcp
+              port: 11211
+              initiator: target
+            attributes:
+              ip_address: 192.168.112.0/24
+          os:
+            type: ubuntu
+            version: 16.04
+            architecture: x86_64
+            distribution: xenial
+    postgresql_database:
+      type: tosca.nodes.Compute
+        attributes:
+          networks:
+          − int:
+          network_name: i n t e r n a l
+        capabilities:
+          host:
+            properties:
+              disk_size: 1024 GiB
+          endpoint:
+            properties:
+              protocol: tcp
+              port: 5432
+              initiator: target
+          attributes:
+            ip_address: 192.168.112.0/24
+          os:
+            type: ubuntu
+            version: 16.04
+            architecture: x86_64
+            distribution: xenial
+
+    EnvoyProxy:
+      type: ansibleGalaxy.nodes.ansible-role-envoyproxy
+      metadata:
+        x: "1235"
+        y: "128"
+        displayName: "EnvoyProxy"
+      requirements:
+        - jupyter:
+            node: Jupyter_0
+            relationship: con_DependsOn_0
+            capability: dependence
+        - host:
+            node: envoy_load_balancer
+            relationship: con_HostedOn_0
+            capability: host
+
+  relationship_templates:
+    con_HostedOn_2:
+      type: tosca.relationships.HostedOn
+    con_DependsOn_0:
+      type: tosca.relationships.DependsOn
+    con_DependsOn_1:
+      type: tosca.relationships.DependsOn
+    con_HostedOn_0:
+      type: tosca.relationships.HostedOn
+

@@ -1,0 +1,102 @@
+tosca_definitions_version: tosca_simple_yaml_1_3
+
+node_types:
+  ansibleGalaxy.nodes.ComputeExtended:
+    derived_from: tosca.nodes.Compute
+    properties:
+      ansible_version:
+        type: string
+
+  ansibleGalaxy.nodes.ansible-role-envoyproxy:
+    derived_from: tosca.nodes.SoftwareComponent
+    description: ansible-role-envoyproxy
+    attributes:
+      role_name:
+        type: string
+        default: "ansible-role-envoyproxy"
+        required: false
+    properties:
+      version:
+        type: string
+        default: "0.0.0"
+        constraints:
+          - valid_values: [ 0.0.0 ]
+        required: false
+      envoy_package:
+        type: string
+        default: "getenvoy-envoy"
+        required: false
+      envoy_package_state:
+        type: string
+        default: "present"
+        required: false
+      envoy_service_state:
+        type: string
+        default: "started"
+        required: false
+      envoy_service_enabled:
+        type: string
+        default: "yes"
+        required: false
+      envoy_restart_handler_state:
+        type: string
+        default: "restarted"
+        required: false
+      envoy_apt_release_channel:
+        type: string
+        default: "stable"
+        required: false
+      envoy_apt_arch:
+        type: string
+        default: "amd64"
+        required: false
+      envoy_apt_repository:
+        type: string
+        default: "deb [arch={{ envoy_apt_arch }}] https://dl.bintray.com/tetrate/getenvoy-deb {{ ansible_distribution_release }} {{ envoy_apt_release_channel }}"
+        required: false
+      envoy_apt_ignore_key_error:
+        type: string
+        default: "true"
+        required: false
+      envoy_apt_gpg_key:
+        type: string
+        default: "https://getenvoy.io/gpg"
+        required: false
+
+
+    requirements:
+      - host:
+          capability: tosca.capabilities.Compute
+          node: ansibleGalaxy.nodes.ComputeExtended
+          relationship: tosca.relationships.HostedOn
+          occurrences: [ 1, 1 ]
+#          node_filter:
+#            capabilities:
+#              - host:
+#                  properties:
+#                    ansible_version:
+#                      constraints:
+#                        - greater_or_equal: 2.9
+#              - os:
+#                  properties:
+#                    type:
+#                    constraints:
+#                      - valid_values: [ "linux" ]
+#                    distribution:
+#                    constraints:
+#                      - valid_values: [ "ubuntu", "debian" ]
+#                    version:
+#                    constraints:
+#                      - valid_values: [ "stretch", "buster", "xenial", "bionic", "focal" ]
+    interfaces:
+      Standard:
+        type: tosca.interfaces.node.lifecycle.Standard
+        operations:
+          create:
+            implementation:
+              primary: create
+              timeout: 0
+    artifacts:
+      create:
+        type: ansibleGalaxy.artifacts.Ansible
+        file: tasks/main.yaml

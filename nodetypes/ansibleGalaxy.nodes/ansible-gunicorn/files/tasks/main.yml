@@ -1,0 +1,33 @@
+---
+- name: Install gunicorn
+  pip: name=gunicorn version={{ gunicorn_version }} state=present
+
+- name: Create gunicorn user
+  user: name={{ gunicorn_user }}
+        system=yes
+        home=/var/lib/{{ gunicorn_user }}
+        shell=/bin/false
+        state=present
+
+- name: Create /etc/gunicorn
+  file: name=/etc/gunicorn state=directory
+
+- name: Install gunicorn config
+  template: src=gunicorn.py.j2 dest=/etc/gunicorn/{{ gunicorn_app_name }}.py
+  notify: Restart gunicorn
+
+- name: Install Upstart service configuration
+  template: src=upstart.conf.j2 dest=/etc/init/{{ gunicorn_app_name }}.conf
+  notify: Restart gunicorn
+  when: ansible_service_mgr == "upstart"
+
+- name: Install systemd service configuration
+  template: src=systemd.conf.j2
+            dest=/etc/systemd/system/{{ gunicorn_app_name }}.service
+            mode="0755"
+  notify: Restart gunicorn
+  when: ansible_service_mgr == "systemd"
+
+- name: Enable gunicorn service
+  service: name="{{ gunicorn_app_name }}{{ (ansible_service_mgr == 'systemd') | ternary('.service', '') }}"
+           enabled=yes

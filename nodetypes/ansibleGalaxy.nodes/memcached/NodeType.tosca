@@ -1,0 +1,91 @@
+tosca_definitions_version: tosca_simple_yaml_1_3
+
+node_types:
+  ansibleGalaxy.nodes.ComputeExtended:
+    derived_from: tosca.nodes.Compute
+    properties:
+      ansible_version:
+        type: string
+
+  ansibleGalaxy.nodes.ansible-role-memcached:
+    derived_from: tosca.nodes.SoftwareComponent
+    description: "Create an ansible-role-memcached"
+    metadata:
+      abstract: "false"
+      final: "false"
+      targetNamespace: "ansibleGalaxy.nodes"
+    attributes:
+      role_name:
+        type: string
+        default: "ansible-role-memcached"
+    properties:
+      version:
+        type: string
+        default: 1.1.0
+        constraints:
+          - valid_values: [ 1.1.0 ]
+      memcached_port:
+        type: string
+        default: "11211"
+        required: false
+      memcached_listen_ip:
+        type: string
+        default: "127.0.0.1"
+        required: false
+      memcached_memory_limit:
+        type: string
+        default: "64"
+        required: false
+      memcached_connections:
+        type: string
+        default: "1024"
+        required: false
+      memcached_log_file:
+        type: string
+        default: "/var/log/memcached.log"
+        required: false
+      memcached_log_verbosity:
+        type: string
+        default: ""
+          required: false
+      memcached_max_item_size:
+        type: string
+        default: "1m"
+        required: false
+
+    requirements:
+      - host:
+          capability: tosca.capabilities.Compute
+          node: ansibleGalaxy.nodes.ComputeExtended
+          relationship: tosca.relationships.HostedOn
+          occurrences: [ 1, 1 ]
+#          node_filter:
+#            capabilities:
+#              - host:
+#                  properties:
+#                    ansible_version:
+#                    constraints:
+#                      - greater_or_equal: 2.9
+#              - os:
+#                  properties:
+#                    type:
+#                    constraints:
+#                      - valid_values: [ "linux" ]
+#                    distribution:
+#                    constraints:
+#                      - valid_values: [ "ubuntu", "debian" ]
+#                    version:
+#                    constraints:
+#                      - valid_values: [ "stretch", "buster", "xenial", "bionic", "focal" ]
+    interfaces:
+      Standard:
+        type: tosca.interfaces.node.lifecycle.Standard
+        operations:
+          create:
+            implementation:
+              primary: create
+              timeout: 0
+    artifacts:
+      create:
+        type: ansibleGalaxy.artifacts.Ansible
+        file: tasks/main.yaml
