@@ -120,25 +120,28 @@ topology_template:
 #            version: 16.04
 #            architecture: x86_64
 #            distribution: xenial
-    EnvoyProxy:
-      type: ansibleGalaxy.nodes.ansible-role-envoyproxy
-      metadata:
-        x: "1235"
-        y: "128"
-        displayName: "EnvoyProxy"
-      requirements:
-        - host:
-            node: envoy_load_balancer
-            relationship: con_HostedOn_0
-            capability: host
-
-  relationship_templates:
-    con_HostedOn_2:
-      type: tosca.relationships.HostedOn
-    con_DependsOn_0:
-      type: tosca.relationships.DependsOn
-    con_DependsOn_1:
-      type: tosca.relationships.DependsOn
-    con_HostedOn_0:
-      type: tosca.relationships.HostedOn
+#    EnvoyProxy:
+#      type: ansibleGalaxy.nodes.ansible-role-envoyproxy
+#      metadata:
+#        x: "1235"
+#        y: "128"
+#        displayName: "EnvoyProxy"
+#      requirements:
+#        - host:
+#            node: envoy_load_balancer
+#            relationship: con_HostedOn_0
+#            capability: host
+#        artifacts:
+#          create:
+#            type: radon.artifacts.Ansible
+#            file: /nodetypes/radon.nodes.monitoring/PushGateway/files/create.yml
+#  relationship_templates:
+#    con_HostedOn_2:
+#      type: tosca.relationships.HostedOn
+#    con_DependsOn_0:
+#      type: tosca.relationships.DependsOn
+#    con_DependsOn_1:
+#      type: tosca.relationships.DependsOn
+#    con_HostedOn_0:
+#      type: tosca.relationships.HostedOn
 
