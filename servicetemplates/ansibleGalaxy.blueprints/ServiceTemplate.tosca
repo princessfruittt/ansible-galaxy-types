@@ -11,18 +11,18 @@ topology_template:
         public_address: 10.10.0.1
         networks:
           − network_0:
-            network_name: internal
+              network_name: internal
       capabilities:
         host:
           properties:
             num_cpus: 16
         endpoint:
+          attributes:
+            ip_address: 0.0.0.0/0
           properties:
             protocol: tcp
             port: 443
             initiator: target
-          attributes:
-            ip_address: 0.0.0.0/0
         os:
           properties:
             type: ubuntu
@@ -127,10 +127,6 @@ topology_template:
         y: "128"
         displayName: "EnvoyProxy"
       requirements:
-        - jupyter:
-            node: Jupyter_0
-            relationship: con_DependsOn_0
-            capability: dependence
         - host:
             node: envoy_load_balancer
             relationship: con_HostedOn_0
